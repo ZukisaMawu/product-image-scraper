@@ -1,4 +1,17 @@
+python-dateutil
 streamlit
 pandas
 openpyxl
 selenium
+```
+
+## Check your deployment logs:
+
+The full error message in Streamlit Cloud will tell you **which specific package** is causing the issue. Can you share the complete error log? Look for lines that say something like:
+```
+ERROR: Could not find a version that satisfies the requirement...
+```
+
+or
+```
+ERROR: No matching distribution found for...

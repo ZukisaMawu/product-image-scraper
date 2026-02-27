@@ -294,7 +294,7 @@ def process_dataframe(df, product_id_col, description_col, supplier_col, brand_c
         if current_row % checkpoint_interval == 0:
             st.session_state.checkpoint_data = results_df.copy()
             st.session_state.last_processed_index = idx
-            status_text.text(f"💾 Checkpoint saved at row {current_row}")
+            status_text.text(f"Checkpoint saved at row {current_row}")
             time.sleep(0.5)
         
         # Adaptive delay to avoid rate limiting
@@ -665,3 +665,4 @@ else:
         # """)
 
       
+

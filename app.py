@@ -408,10 +408,10 @@ def create_excel_output(results_df, stats_df):
     return output
 
 # Streamlit App
-st.set_page_config(page_title="Product Image URL Scraper v3", page_icon="🖼️", layout="wide")
+st.set_page_config(page_title="Automated Image Search", page_icon="🖼️", layout="wide")
 
-st.title("🖼️ Product Image URL Scraper v3")
-st.markdown("Upload an Excel file to scrape product images from Bing Images with domain filtering")
+st.title("Automated Image Search")
+st.markdown("Upload an Excel file to scrape product images.")
 
 # File upload
 uploaded_file = st.file_uploader("Upload Excel File", type=['xlsx', 'xls'])
@@ -423,7 +423,7 @@ if uploaded_file:
         sheet_names = excel_file.sheet_names
         
         # Sheet selection
-        st.subheader("📋 Step 1: Select Sheet")
+        st.subheader("Step 1: Select Sheet")
         selected_sheet = st.selectbox("Choose the sheet to process:", sheet_names)
         
         # Read selected sheet
@@ -432,7 +432,7 @@ if uploaded_file:
         st.success(f"✓ Loaded sheet '{selected_sheet}' with {len(df)} rows and {len(df.columns)} columns")
         
         # Column selection
-        st.subheader("📝 Step 2: Select Columns")
+        st.subheader("Step 2: Select Columns")
         
         col1, col2 = st.columns(2)
         with col1:
@@ -463,7 +463,7 @@ if uploaded_file:
             )
         
         # Domain filtering options
-        st.subheader("🔍 Step 3: Domain Filtering (Optional)")
+        st.subheader("Step 3: Domain Filtering (Optional)")
         
         col1, col2 = st.columns(2)
         
@@ -493,7 +493,7 @@ if uploaded_file:
         
         # Display active filters
         if whitelist or blacklist:
-            st.info(f"🔒 Active filters: {len(whitelist) if whitelist else 0} allowed domains, {len(blacklist) if blacklist else 0} blocked domains")
+            st.info(f"Active filters: {len(whitelist) if whitelist else 0} allowed domains, {len(blacklist) if blacklist else 0} blocked domains")
         
         # Preview selected columns
         with st.expander("Preview first 5 products"):
@@ -505,7 +505,7 @@ if uploaded_file:
             st.dataframe(df[preview_cols].head())
         
         # Number of rows to process
-        st.subheader("🔢 Step 4: Set Number of Rows to Process")
+        st.subheader("Step 4: Set Number of Rows to Process")
         max_rows = len(df)
         num_rows = st.number_input(
             f"How many rows to process? (Max: {max_rows}, Recommended: 100)",
@@ -517,14 +517,14 @@ if uploaded_file:
         
         # Estimate time
         estimated_time = num_rows * 3.5 / 60  # ~3.5 seconds per item
-        st.info(f"📊 Processing {num_rows} rows | Estimated time: ~{estimated_time:.1f} minutes")
+        st.info(f"Processing {num_rows} rows | Estimated time: ~{estimated_time:.1f} minutes")
         
         # Process button
-        st.subheader("🚀 Step 5: Start Processing")
+        st.subheader("Step 5: Start Processing")
         
-        if st.button("🔍 Start Scraping", type="primary"):
+        if st.button("Start Scraping", type="primary"):
             st.markdown("---")
-            st.subheader("⏳ Processing...")
+            st.subheader("Processing...")
             
             start_time = time.time()
             
@@ -547,26 +547,26 @@ if uploaded_file:
             elapsed_time = (time.time() - start_time) / 60
             
             st.markdown("---")
-            st.success(f"✅ Processing Complete in {elapsed_time:.1f} minutes!")
+            st.success(f"Processing Complete in {elapsed_time:.1f} minutes!")
             
             # Display results preview
-            st.subheader("📊 Results Preview")
+            st.subheader("Results Preview")
             st.dataframe(results_df.head(10))
             
             # Create download file
             output_file = create_excel_output(results_df, stats_df)
             
             # Download button
-            st.subheader("💾 Download Results")
+            st.subheader("Download Results")
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             st.download_button(
-                label="📥 Download Excel with Results & Statistics",
+                label="Download Excel with Results & Statistics",
                 data=output_file,
                 file_name=f"Product_URLs_Results_{num_rows}rows_{timestamp}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
             
-            st.info("📋 **Excel file contains 3 sheets:**\n- **Results**: Clean data with only selected columns + URLs\n- **Summary**: Overview with top domains and notable findings\n- **Statistics**: Detailed tracking data for research")
+            st.info("**Excel file contains 3 sheets:**\n- **Results**: Clean data with only selected columns + URLs\n- **Summary**: Overview with top domains and notable findings\n- **Statistics**: Detailed tracking data for research")
     
     except Exception as e:
         st.error(f"Error: {str(e)}")
@@ -575,10 +575,10 @@ if uploaded_file:
             st.code(traceback.format_exc())
 
 else:
-    st.info("👆 Please upload an Excel file to get started")
+    st.info("Please upload an Excel file to get started")
     
     # Instructions
-    with st.expander("ℹ️ How to use this app"):
+    with st.expander("How to use this app"):
         st.markdown("""
         ### Instructions:
         1. **Upload** your Excel file containing product data
@@ -596,20 +596,20 @@ else:
         7. **Download** the Excel file with 3 sheets
         
         ### Output File Structure:
-        - 📄 **Results Sheet**: Clean data ready for work
+        - **Results Sheet**: Clean data ready for work
           - Your selected columns + Image URLs + Product Page URL
-        - 📊 **Summary Sheet**: Quick overview
+        - **Summary Sheet**: Quick overview
           - Success metrics, top 3 domains, notable findings
-        - 📈 **Statistics Sheet**: Detailed tracking
+        - **Statistics Sheet**: Detailed tracking
           - Product ID, search queries, domains, timestamps, status
         
         ### What's New in v3:
-        - ✅ **Clean Results sheet** - only columns you need
-        - ✅ **Separate Statistics sheet** - for analysis and improvement
-        - ✅ **Summary sheet** - instant insights and recommendations
-        - ✅ **Plain text URLs** - easy to copy and use
-        - ✅ **Domain filtering** with whitelist/blacklist
-        - ✅ **Automatic insights** - highlights issues and patterns
+        - **Clean Results sheet** - only columns you need
+        - **Separate Statistics sheet** - for analysis and improvement
+        - **Summary sheet** - instant insights and recommendations
+        - **Plain text URLs** - easy to copy and use
+        - **Domain filtering** with whitelist/blacklist
+        - **Automatic insights** - highlights issues and patterns
         
         ### Domain Filtering Tips:
         - **Whitelist**: Use for official sources only (manufacturer sites, major retailers)
@@ -622,45 +622,46 @@ else:
         - **Success rate**: Typically 85-95% (may be lower with strict filtering)
         """)
     
-    with st.expander("⚙️ Recommended Domain Settings"):
-        st.markdown("""
-        ### Suggested Whitelists by Industry:
+    # with st.expander("⚙️ Recommended Domain Settings"):
+        # st.markdown("""
+        # ### Suggested Whitelists by Industry:
         
-        **Electronics:**
-        ```
-        amazon.com
-        bestbuy.com
-        newegg.com
-        bhphotovideo.com
-        manufacturer websites
-        ```
+        # **Electronics:**
+        # ```
+        # amazon.com
+        # bestbuy.com
+        # newegg.com
+        # bhphotovideo.com
+        # manufacturer websites
+        # ```
         
-        **Fashion/Apparel:**
-        ```
-        nordstrom.com
-        macys.com
-        zappos.com
-        brand official sites
-        ```
+        # **Fashion/Apparel:**
+        # ```
+        # nordstrom.com
+        # macys.com
+        # zappos.com
+        # brand official sites
+        # ```
         
-        **Industrial/B2B:**
-        ```
-        grainger.com
-        mcmaster.com
-        mscdirect.com
-        supplier websites
-        ```
+        # **Industrial/B2B:**
+        # ```
+        # grainger.com
+        # mcmaster.com
+        # mscdirect.com
+        # supplier websites
+        # ```
         
-        ### Always Blacklist:
-        ```
-        pinterest.com
-        facebook.com
-        instagram.com
-        aliexpress.com
-        temu.com
-        wish.com
-        ebay.com (optional)
-        etsy.com (optional)
-        ```
-        """)
+        # ### Always Blacklist:
+        # ```
+        # pinterest.com
+        # facebook.com
+        # instagram.com
+        # aliexpress.com
+        # temu.com
+        # wish.com
+        # ebay.com (optional)
+        # etsy.com (optional)
+        # ```
+        # """)
+
       
